@@ -23,6 +23,7 @@ export const HeroContainer = styled.section`
   }
 
   h1 {
+    font-size: 32px;
     font-weight: 900;
     margin-top: 156px;
     margin-bottom: 32px;
