@@ -1,21 +1,25 @@
-import product from '../../models/Product'
+import { Prato } from '../../models/Restaurant'
 import ProductsCard from '../ProductsCard'
 import { Container, List } from './styles'
 
 type Props = {
-  products: product[]
+  pratos: Prato[]
 }
 
-const ProductsList = ({ products }: Props) => (
+const ProductsList = ({ pratos }: Props) => (
   <Container>
     <List>
-      {products.map((product) => (
-        <ProductsCard
-          key={product.id}
-          title={product.title}
-          image={product.image}
-          description={product.description}
-        />
+      {pratos.map((prato) => (
+        <li key={prato.id}>
+          <ProductsCard
+            foto={prato.foto}
+            nome={prato.nome}
+            descricao={prato.descricao}
+            id={prato.id}
+            preco={prato.preco}
+            porcao={prato.porcao}
+          />
+        </li>
       ))}
     </List>
   </Container>

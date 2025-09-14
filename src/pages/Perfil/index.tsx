@@ -1,61 +1,37 @@
-import Apresentacao from '../../components/HeroRestaurant'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+
+import { Restaurante } from '../../models/Restaurant'
+
 import Header from '../../components/Header'
 import ProductsList from '../../components/ProductsList'
-import Product from '../../models/Product'
+import HeroRestaurant from '../../components/HeroRestaurant'
 
-import pizzaMarguerita from '../../assets/images/marguerita.png'
+const Perfil = () => {
+  const [restaurante, setRestaurante] = useState<Restaurante>()
+  const { id } = useParams()
 
-const catalogo: Product[] = [
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
-  },
-  {
-    id: 1,
-    image: pizzaMarguerita,
-    title: 'Pizza Marguerita',
-    description:
-      'A clássica Marguerita: molho de tomate suculento, mussarela derretida, manjericão fresco e um toque de azeite. Sabor e simplicidade!'
+  useEffect(() => {
+    fetch(`https://ebac-fake-api.vercel.app/api/efood/restaurantes/${id}`)
+      .then((res) => res.json())
+      .then((res) => setRestaurante(res))
+  }, [id])
+
+  if (!restaurante) {
+    return <h3>Carregando...</h3>
   }
-]
 
-const Perfil = () => (
-  <>
-    <Header />
-    <Apresentacao />
-    <ProductsList products={catalogo} />
-  </>
-)
+  return (
+    <>
+      <Header />
+      <HeroRestaurant
+        imagem={restaurante.capa}
+        titulo={restaurante.titulo}
+        tipo={restaurante.tipo}
+      />
+      <ProductsList pratos={restaurante.cardapio} />
+    </>
+  )
+}
 
 export default Perfil

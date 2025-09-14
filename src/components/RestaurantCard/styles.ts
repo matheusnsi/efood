@@ -9,6 +9,13 @@ export const Card = styled.div`
   overflow: hidden;
   position: relative;
 
+  > img {
+    width: 100%;
+    display: block;
+    height: 217px;
+    object-fit: cover;
+  }
+
   button {
     padding: 6px 4px;
     background-color: ${cores.rosa};

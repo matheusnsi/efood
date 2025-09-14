@@ -1,10 +1,16 @@
 import { HeroContainer } from './styles'
 
-const HeroRestaurant = () => (
-  <HeroContainer>
-    <div>
-      <p>Italiana</p>
-      <h1>La Dolce Vita Trattoria</h1>
+type Props = {
+  imagem: string
+  tipo: string
+  titulo: string
+}
+
+const HeroRestaurant = ({ imagem, tipo, titulo }: Props) => (
+  <HeroContainer style={{ backgroundImage: `url(${imagem})` }}>
+    <div className="container">
+      <p>{tipo}</p>
+      <h1>{titulo}</h1>
     </div>
   </HeroContainer>
 )

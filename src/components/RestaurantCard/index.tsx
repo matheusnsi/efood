@@ -3,32 +3,34 @@ import { Link } from 'react-router-dom'
 import estrela from '../../assets/images/estrela.png'
 import Tag from '../Tag'
 import { Card, Description, Infos, Rating, Title } from './styles'
+import { Restaurante } from '../../models/Restaurant'
 
-type Props = {
-  image: string
-  title: string
-  rating: string
-  category: string[]
-  description: string
-}
+type Props = Omit<Restaurante, 'cardapio'>
 
-const Restaurant = ({ image, title, rating, category, description }: Props) => (
+const Restaurant = ({
+  capa,
+  titulo,
+  avaliacao,
+  destacado,
+  descricao,
+  tipo,
+  id
+}: Props) => (
   <Card>
-    <img src={image} alt={title} />
+    <img src={capa} alt={titulo} />
     <Infos>
-      {category.map((category) => (
-        <Tag key={category}>{category}</Tag>
-      ))}
+      {destacado && <Tag>Destacado da semana</Tag>}
+      <Tag>{tipo}</Tag>
     </Infos>
     <div>
-      <Title>Hioki Sushi</Title>
+      <Title>{titulo}</Title>
       <Rating>
-        <span>{rating}</span>
+        <span>{avaliacao}</span>
         <img src={estrela} alt="Estrela" />
       </Rating>
     </div>
-    <Description>{description}</Description>
-    <Link to="/perfil">
+    <Description>{descricao}</Description>
+    <Link to={`/restaurante/${id}`}>
       <button>Saiba mais</button>
     </Link>
   </Card>
