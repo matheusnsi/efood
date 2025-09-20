@@ -1,13 +1,21 @@
 import { useState } from 'react'
-
 import { Card, Modal, ModalContent, Title, Description, Button } from './styles'
-
 import { Prato } from '../../models/Restaurant'
-
 import close from '../../assets/images/close.png'
+import { useDispatch } from 'react-redux'
+import { add, open } from '../../store/reducers/cart'
 
-const ProductsCard = ({ foto, nome, descricao, id, porcao, preco }: Prato) => {
+type Props = {
+  prato: Prato
+}
+
+const ProductsCard = ({ prato }: Props) => {
+  const dispatch = useDispatch()
   const [estaVisivel, setEstaVisivel] = useState(false)
+
+  const addToCart = (prato: Prato) => {
+    dispatch(add(prato))
+  }
 
   const getDescription = (descricao: string) => {
     if (descricao.length > 190) {
@@ -22,17 +30,21 @@ const ProductsCard = ({ foto, nome, descricao, id, porcao, preco }: Prato) => {
       currency: 'BRL'
     }).format(preco)
   }
+
+  const openCart = () => {
+    dispatch(open())
+  }
   return (
     <>
       <Card>
-        <img src={foto} alt={nome} />
-        <Title>{nome}</Title>
-        <Description>{getDescription(descricao)}</Description>
+        <img src={prato.foto} alt={prato.nome} />
+        <Title>{prato.nome}</Title>
+        <Description>{getDescription(prato.descricao)}</Description>
         <Button onClick={() => setEstaVisivel(true)}>Mais detalhes</Button>
       </Card>
       <Modal className={estaVisivel ? 'visible' : ''}>
         <ModalContent className="containerCard">
-          <img src={foto} className="foto-prato" />
+          <img src={prato.foto} className="foto-prato" />
           <img
             src={close}
             className="close"
@@ -40,16 +52,29 @@ const ProductsCard = ({ foto, nome, descricao, id, porcao, preco }: Prato) => {
           />
           <div>
             <div>
-              <Title>{nome}</Title>
+              <Title>{prato.nome}</Title>
               <Description>
-                {descricao}
+                {prato.descricao}
                 <br />
                 <br />
                 <br />
-                {porcao !== '1 pessoa' ? <>Serve de </> : <>Serve </>} {porcao}
+                {prato.porcao !== '1 pessoa' ? (
+                  <>Serve de </>
+                ) : (
+                  <>Serve </>
+                )}{' '}
+                {prato.porcao}
               </Description>
             </div>
-            <Button>{'Adicionar ao carrinho - ' + formataPreco(preco)}</Button>
+            <Button
+              onClick={() => {
+                addToCart(prato)
+                setEstaVisivel(false)
+                openCart()
+              }}
+            >
+              {'Adicionar ao carrinho - ' + formataPreco(prato.preco)}
+            </Button>
           </div>
         </ModalContent>
         <div className="overlay" onClick={() => setEstaVisivel(false)}></div>

@@ -11,14 +11,7 @@ const ProductsList = ({ pratos }: Props) => (
     <List>
       {pratos.map((prato) => (
         <li key={prato.id}>
-          <ProductsCard
-            foto={prato.foto}
-            nome={prato.nome}
-            descricao={prato.descricao}
-            id={prato.id}
-            preco={prato.preco}
-            porcao={prato.porcao}
-          />
+          <ProductsCard prato={prato} />
         </li>
       ))}
     </List>

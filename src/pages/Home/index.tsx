@@ -1,16 +1,14 @@
 import RestaurantsList from '../../components/RestaurantsList'
 import Hero from '../../components/Hero'
-import { useEffect, useState } from 'react'
-import { Restaurante } from '../../models/Restaurant'
+import { useGetRestaurantesQuery } from '../../services/api'
+import Loading from '../../components/Loading'
 
 const Home = () => {
-  const [restaurantes, setRestaurantes] = useState<Restaurante[]>([])
+  const { data: restaurantes } = useGetRestaurantesQuery()
 
-  useEffect(() => {
-    fetch('https://ebac-fake-api.vercel.app/api/efood/restaurantes')
-      .then((res) => res.json())
-      .then((res) => setRestaurantes(res))
-  }, [])
+  if (!restaurantes) {
+    return <Loading />
+  }
 
   return (
     <>
