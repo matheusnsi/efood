@@ -10,7 +10,7 @@ export const CartContent = styled.div`
   height: 100%;
   display: none;
   justify-content: flex-end;
-  z-index: 1;
+  z-index: 1000; /* fica acima do resto da UI */
 
   &.is-open {
     display: flex;
@@ -25,14 +25,16 @@ export const Overlay = styled.div`
   height: 100%;
   background-color: #000;
   opacity: 0.7;
+  z-index: 10; /* abaixo da sidebar */
 `
 
 export const Sidebar = styled.aside`
+  position: relative; /* necessário para o z-index funcionar */
+  z-index: 20; /* acima do overlay */
   background-color: ${cores.rosa};
   padding: 32px 8px 0;
   max-width: 360px;
   width: 100%;
-  z-index: 1;
 
   button {
     background-color: ${cores.rosaClaro};
@@ -42,7 +44,6 @@ export const Sidebar = styled.aside`
     padding: 6px 4px;
     cursor: pointer;
     text-decoration: none;
-    margin: 8px;
     display: inline-block;
     width: 100%;
     margin: 8px 0;
@@ -95,5 +96,4 @@ export const CartItem = styled.div`
     cursor: pointer;
     background-size: contain;
   }
-}
 `
